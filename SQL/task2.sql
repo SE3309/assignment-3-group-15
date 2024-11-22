@@ -53,28 +53,27 @@ CREATE TABLE OrderListing (
 );
 
 CREATE TABLE Payment (
-    paymentID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    orderID INT NOT NULL,
+    orderID INT NOT NULL PRIMARY KEY,
     paymentMethod VARCHAR(20) NOT NULL,
     status VARCHAR(10) NOT NULL,
     FOREIGN KEY (orderID) REFERENCES Orders(orderID) ON DELETE CASCADE
 );
 
 CREATE TABLE Shipping (
-    shippingID INT NOT NULL PRIMARY KEY,
-    orderID INT NOT NULL,
+    orderID INT NOT NULL PRIMARY KEY,
     origin INT NOT NULL,
     destination INT NOT NULL,
     status VARCHAR(20) NOT NULL,
     arrivalDate DATE,
     company VARCHAR(50),
-    FOREIGN KEY (orderID) REFERENCES Orders(orderID),
-    FOREIGN KEY (origin) REFERENCES Address(addressID),
-    FOREIGN KEY (destination) REFERENCES Address(addressID)
+    FOREIGN KEY (orderID) REFERENCES Orders(orderID) ON DELETE CASCADE,
+    FOREIGN KEY (origin) REFERENCES Address(addressID) ON DELETE CASCADE,
+    FOREIGN KEY (destination) REFERENCES Address(addressID) ON DELETE CASCADE
 );
 
 CREATE TABLE Review (
-    userID VARCHAR(50) NOT NULL PRIMARY KEY,
+    reviewID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    userID VARCHAR(50) NOT NULL,
     orderID INT NOT NULL,
     listingID INT NOT NULL,
     rating INT NOT NULL,
