@@ -1,6 +1,7 @@
+DROP TABLE IF EXISTS User, Category, Address, Listing, Orders, OrderListing, Payment, Shipping, Review;
 
 CREATE TABLE User (
-    userID INT NOT NULL PRIMARY KEY,
+    userID VARCHAR(50) NOT NULL PRIMARY KEY,
     displayName VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(20) NOT NULL,
@@ -9,12 +10,12 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Category (
-    categoryID INT NOT NULL PRIMARY KEY,
+    categoryID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Address (
-    addressID INT NOT NULL PRIMARY KEY,
+    addressID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     streetAddress VARCHAR(255) NOT NULL,
     city VARCHAR(100) NOT NULL,
     state VARCHAR(100),
@@ -23,25 +24,23 @@ CREATE TABLE Address (
 );
 
 CREATE TABLE Listing (
-    listingID INT NOT NULL PRIMARY KEY,
-    seller INT NOT NULL,
+    listingID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    seller VARCHAR(50) NOT NULL,
     categoryID INT NOT NULL,
     price DECIMAL(10, 2),
     description TEXT,
     addressID INT,
     images VARCHAR(255),
-    FOREIGN KEY (seller) REFERENCES User(userID),
-    FOREIGN KEY (categoryID) REFERENCES Category(categoryID),
-    FOREIGN KEY (addressID) REFERENCES Address(addressID)
+    FOREIGN KEY (seller) REFERENCES User(userID) ON DELETE CASCADE,
+    FOREIGN KEY (categoryID) REFERENCES Category(categoryID) ON DELETE CASCADE,
+    FOREIGN KEY (addressID) REFERENCES Address(addressID) ON DELETE CASCADE
 );
 
 CREATE TABLE Orders (
-    orderID INT NOT NULL PRIMARY KEY,
-    buyer INT NOT NULL,
-    paymentID INT NOT NULL,
-    shippingID INT NOT NULL,
+    orderID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    buyer VARCHAR(50) NOT NULL,
     date DATE NOT NULL,
-    FOREIGN KEY (buyer) REFERENCES User(userID)
+    FOREIGN KEY (buyer) REFERENCES User(userID) ON DELETE CASCADE
 );
 
 CREATE TABLE OrderListing (
@@ -49,16 +48,16 @@ CREATE TABLE OrderListing (
     listingID INT NOT NULL,
     quantity INT DEFAULT 1,
     PRIMARY KEY (orderID, listingID),
-    FOREIGN KEY (orderID) REFERENCES Orders(orderID),
-    FOREIGN KEY (listingID) REFERENCES Listing(listingID)
+	FOREIGN KEY (orderID) REFERENCES Orders(orderID) ON DELETE CASCADE,
+    FOREIGN KEY (listingID) REFERENCES Listing(listingID) ON DELETE CASCADE
 );
 
 CREATE TABLE Payment (
-    paymentID INT NOT NULL PRIMARY KEY,
+    paymentID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     orderID INT NOT NULL,
     paymentMethod VARCHAR(20) NOT NULL,
     status VARCHAR(10) NOT NULL,
-    FOREIGN KEY (orderID) REFERENCES Orders(orderID)
+    FOREIGN KEY (orderID) REFERENCES Orders(orderID) ON DELETE CASCADE
 );
 
 CREATE TABLE Shipping (
@@ -75,16 +74,15 @@ CREATE TABLE Shipping (
 );
 
 CREATE TABLE Review (
-    reviewID INT NOT NULL PRIMARY KEY,
-    userID INT NOT NULL,
+    userID VARCHAR(50) NOT NULL PRIMARY KEY,
     orderID INT NOT NULL,
     listingID INT NOT NULL,
     rating INT NOT NULL,
     description TEXT,
     images VARCHAR(255),
     date DATE NOT NULL,
-    FOREIGN KEY (userID) REFERENCES User(userID),
-    FOREIGN KEY (orderID, listingID) REFERENCES OrderListing(orderID, listingID)
+    FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE,
+    FOREIGN KEY (orderID, listingID) REFERENCES OrderListing(orderID, listingID) ON DELETE CASCADE
 );
 
 
