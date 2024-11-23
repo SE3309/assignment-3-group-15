@@ -40,8 +40,8 @@ SELECT * FROM first LIMIT 5;
 SELECT * FROM second LIMIT 5;
 
 -- modifying the first view 
-INSERT INTO first (buyer, displayName, orderCount) 
-VALUES (999, 'Test Buyer', 5);
+INSERT INTO first (listingID, description, sellerName, categoryName) 
+VALUES (99, 'Test Description', 'Test Seller', 'Electronics');
 
 
 -- The views in this database are not updatable because they involve joins, aggregate functions, and 
