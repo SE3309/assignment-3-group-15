@@ -42,3 +42,7 @@ LEFT JOIN Payment p ON o.orderID = p.orderID
 LEFT JOIN Shipping s ON o.orderID = s.orderID
 WHERE o.date < '2024-01-01';
 
+SELECT * FROM Orders;
+SELECT * FROM Payment;
+SELECT * FROM Shipping;
+SELECT * FROM OrderListing;
