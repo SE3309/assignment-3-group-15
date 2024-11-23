@@ -11,7 +11,7 @@ try:
     conn = mysql.connector.connect(
         host='localhost',
         user='root',  # Change to your MySQL username (found running 'SELECT USER()' in MySQL, everything before the @ symbol is the username)
-        password='SuperServerPassword!',  # Change to your MySQL password
+        password='Password',  # Change to your MySQL password
         database='myDB'  # Ensure this matches your database name
     )
     cursor = conn.cursor()
